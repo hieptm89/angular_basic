@@ -1,0 +1,8 @@
+<div class="header-actions">
+  <button type="button" (click)="onCart()" [attr.aria-label]="'cart-' + cartCount">
+    Giỏ hàng ({{ cartCount }})
+  </button>
+  <button type="button" (click)="onBuyClick()" [class.primary]="true">
+    Mua hàng
+  </button>
+</div>
