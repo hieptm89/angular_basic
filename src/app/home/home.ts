@@ -56,8 +56,7 @@ export class HomeComponent {
   isVisible: boolean = true; // structural
   isActive: boolean = true; // attribute
 
-  // Pass props: Truyền từ cha sang con
-  cartCountParent = 0;
+  // DS sản phẩm
   productsParent: Product[] = [
     {
       id: '1',
@@ -80,12 +79,13 @@ export class HomeComponent {
       price: 4000
     }
   ];
-
-  onBuyParent() {
-    this.cartCountParent++;
-    console.log('Mua hàng được click');
+  
+  // Đếm số sảm phẩm trong Card
+  get cartCountParent() {
+    return this.productsParent.length;
   }
 
+  // Xóa sản phẩm khỏi Card
   handleDeleteParent = (id: string) => {
     console.log('card id = ', id);
     const productIndex = this.productsParent.findIndex(item => item.id == id);
@@ -93,6 +93,8 @@ export class HomeComponent {
       this.productsParent.splice(productIndex, 1);
     }
   }
+
+  
 
 
 }

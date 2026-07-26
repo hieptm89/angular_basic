@@ -81,10 +81,9 @@
   </section>
 
   <section class="card">    
-    <app-product-item
-      [cartCount]="cartCountParent"
-      (buy)="onBuyParent()"
+    <app-product-item      
       [products]="productsParent"
+      [cartCount]="cartCountParent"      
       (dataEvent)="handleDeleteParent($event)">
     </app-product-item>
   </section>
