@@ -62,28 +62,36 @@ export class HomeComponent {
     {
       id: '1',
       name: 'samba og',
-      price: 40000
+      price: 1000
     },
     {
       id: '2',
       name: 'n F1',
-      price: 50000
+      price: 2000
     },
     {
       id: '3',
       name: 'giày Adidas',
-      price: 60000
+      price: 3000
     },
     {
       id: '4',
       name: 'giày mlb',
-      price: 70000
+      price: 4000
     }
   ];
 
   onBuyParent() {
     this.cartCountParent++;
     console.log('Mua hàng được click');
+  }
+
+  handleDeleteParent = (id: string) => {
+    console.log('card id = ', id);
+    const productIndex = this.productsParent.findIndex(item => item.id == id);
+    if(productIndex != -1) {
+      this.productsParent.splice(productIndex, 1);
+    }
   }
 
 

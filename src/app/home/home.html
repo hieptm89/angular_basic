@@ -1,56 +1,92 @@
-    <!-- ----------------------------------------------------------------------------------- -->
-    <h1>#1 Binding Text, Properties, Attributes, Event and @Input, @Output of Parent and child component</h1>
-    <!-- Binding object properties -->    
-    <div>{{ user.name }}</div>
+<main class="home-page">
+  <section class="card">
+    <h1>#1 Binding Text, Properties, Attributes</h1>
 
-    <!-- Event binding -->
-    <button (click)="sayHello()">Click me to show text</button>
-    
-    <!-- Text -->
-    <div>{{ title }}</div>
+    <div class="field">
+      <label>Object binding</label>
+      <div class="value">{{ user.name }}</div>
+    </div>
 
-    <!-- Properties binding -->
-    <button [disabled]="isDisabled" (click)="toggleDisabled()">Toggle Disabled</button>
+    <div class="field">
+      <button class="btn" (click)="sayHello()">Click me to show text</button>
+    </div>
 
-    <!-- Attributes binding -->
-    <button [attr.aria-label]="'buy-button-' + cartCountParent">Mua (aria)</button>
+    <div class="field">
+      <label>Text</label>
+      <div class="value">{{ title }}</div>
+    </div>
 
-    <!-- innerHTML -->
-    <div [innerHTML]="htmlSnipet"></div>
+    <div class="field">
+      <label>Property binding</label>
+      <button class="btn" (click)="toggleDisabled()">Toggle state
+      </button>            
+      <div>{{ isDisabled ? 'Enable' : 'Disable' }}</div>
+    </div>
 
-    <!-- Class & style binding -->
-    <div [class.active]="active" [style.color]="active ? 'green' : 'gray'"> 
+    <div class="field">
+      <label>Attribute binding</label>
+      <button class="btn btn-secondary" [attr.aria-label]="'buy-button-' + cartCountParent">
+        Mua (aria)
+      </button>
+    </div>
+
+    <div class="field">
+      <label>innerHTML</label>
+      <div class="html-box" [innerHTML]="htmlSnipet"></div>
+    </div>
+
+    <div class="field">
+      <label>Class & style binding</label>
+      <div class="status-box" [class.active]="active" [style.color]="active ? 'green' : 'gray'">
         Trạng thái : {{ active ? 'Active' : 'Inactive' }}
+      </div>
     </div>
+  </section>
 
-    <!-- ----------------------------------------------------------------------------------- -->
-    <h1>#2 Two way binding</h1>
-    <label>
-        Your name: 
-        <input [(ngModel)]="userName" placeholder="Nhập tên" />
+  <section class="card">
+    <h1>#2 Two-way binding</h1>
+
+    <label class="field-inline">
+      Your name:
+      <input class="input-text" [(ngModel)]="userName" placeholder="Nhập tên" />
     </label>
-    <p>{{userName}}</p>
-    
-    <!-- ----------------------------------------------------------------------------------- -->
-    <h1>#3 Directive: </h1>
-    <h4>Structural directive: thay đổi cấu trúc DOM, thường dùng dấu: *ngIf, *ngFor </h4>
-    <div *ngIf="isVisible">Hello world</div>
-    <ul>
-      <li *ngFor="let student of students">
-        {{ student.name }} 
-      </li>
-    </ul>
+    <p class="value">Bạn đang nhập: {{ userName }}</p>
+  </section>
 
-    <h4>Attribute directive: thay đổi giao diện hoặc hành vi của phần tử hiện có: ngClass, ngStyle </h4>
-    <div [ngClass]="{'active': isActive}">Shopping Cart</div>
-    <div [ngStyle]="{ color: isActive ? 'green' : 'gray', padding: '8px', border: '1px solid #ccc' }">
-      Dùng ngStyle để đổi màu và padding theo điều kiện
+  <section class="card">
+    <h1>#3 Directive</h1>
+
+    <div class="field">
+      <button class="btn" (click)="isVisible = !isVisible">
+        {{ isVisible ? 'Ẩn' : 'Hiện' }} 
+      </button>
     </div>
 
-    <!-- #4 Pass props -->
-    <!-- Child component with Input/Output -->             
-    <app-product-item [cartCount]="cartCountParent" 
-                      (buy)="onBuyParent()"
-                      [products]="productsParent">
+    <div class="field">
+      <label>Structural directive</label>
+      <div class="box" *ngIf="isVisible">Hello world</div>
+      <ul class="list">
+        <li *ngFor="let student of students">{{ student.name }}</li>
+      </ul>
+    </div>
+
+    <div class="field">
+      <label>Attribute directive</label>
+      <div [ngClass]="{ active: isActive }" class="box">Shopping Cart</div>
+      <div class="box"
+           [ngStyle]="{ color: isActive ? 'green' : 'gray', padding: '8px', border: '1px solid #ccc' }">
+        Dùng ngStyle để đổi màu và padding theo điều kiện
+      </div>
+    </div>
+  </section>
+
+  <section class="card">    
+    <app-product-item
+      [cartCount]="cartCountParent"
+      (buy)="onBuyParent()"
+      [products]="productsParent"
+      (dataEvent)="handleDeleteParent($event)">
     </app-product-item>
+  </section>
+</main>
 
