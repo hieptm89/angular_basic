@@ -1,18 +1,17 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { HeaderLayoutComponent } from '../shared/header-layout.component';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CurrencyPipe } from '../pipes/CurrencyPipe.pipe';
-import { UpperCasePipe } from '../pipes/UpperCasePipe.pipe';
 import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
+import { Product } from '../shared/types/product';
+import { ProductItemComponent } from "../shared/product-item/product-item";
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
-    RouterOutlet, HeaderLayoutComponent, FormsModule, 
-    CurrencyPipe, UpperCasePipe, 
-    NgFor, NgIf, NgClass, NgStyle],
+    FormsModule,
+    NgFor, NgIf, NgClass, NgStyle,
+    ProductItemComponent
+],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
@@ -24,8 +23,7 @@ export class HomeComponent {
     old: 30
   }
   // Properties
-  isDisabled = false;
-  cartCountParent = 0;
+  isDisabled = false;  
 
   // Attributes
   htmlSnipet = '<strong style="color:teal">HTML động</strong>';
@@ -39,31 +37,18 @@ export class HomeComponent {
     this.title = "Hello world, my name is " + this.user.name + ". I am " + this.user.old + " years old.";
   }
 
-  onBuyParent() {
-    this.cartCountParent++;
-    console.log('Mua hàng được click');
-  }
-
   // Two way binding
   userName = "";
 
   // List render
-  products = [
+  students = [
     {
-      name: 'samba og',
-      price: 40000
+      id: '1',
+      name: 'tran van a'
     },
     {
-      name: 'n F1',
-      price: 50000
-    },
-    {
-      name: 'giày Adidas',
-      price: 60000
-    },
-    {
-      name: 'giày mlb',
-      price: 70000
+      id: '2',
+      name: 'tran van b'
     }
   ];
 
@@ -71,6 +56,35 @@ export class HomeComponent {
   isVisible: boolean = true; // structural
   isActive: boolean = true; // attribute
 
+  // Pass props: Truyền từ cha sang con
+  cartCountParent = 0;
+  productsParent: Product[] = [
+    {
+      id: '1',
+      name: 'samba og',
+      price: 40000
+    },
+    {
+      id: '2',
+      name: 'n F1',
+      price: 50000
+    },
+    {
+      id: '3',
+      name: 'giày Adidas',
+      price: 60000
+    },
+    {
+      id: '4',
+      name: 'giày mlb',
+      price: 70000
+    }
+  ];
+
+  onBuyParent() {
+    this.cartCountParent++;
+    console.log('Mua hàng được click');
+  }
 
 
 }
