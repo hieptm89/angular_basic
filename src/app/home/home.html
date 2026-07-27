@@ -80,12 +80,15 @@
     </div>
   </section>
 
-  <section class="card">    
+  <section class="card">        
     <app-product-item      
       [products]="productsParent"
       [cartCount]="cartCountParent"      
       (dataEvent)="handleDeleteParent($event)">
     </app-product-item>
+
+    <!-- Debug: show productsParent JSON to verify data binding -->
   </section>
+
 </main>
 

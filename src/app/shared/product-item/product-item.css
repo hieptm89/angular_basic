@@ -133,7 +133,7 @@ button:hover {
 
 .cart-row {
   display: grid;
-  grid-template-columns: 90px 1.4fr 140px 140px;
+  grid-template-columns: 120px 1fr 160px 120px;
   align-items: center;
   gap: 14px;
   padding: 18px 22px;
@@ -153,9 +153,25 @@ button:hover {
 }
 
 .product-id a {
-  color: #3b3d56;
+  color: inherit;
   text-decoration: none;
+}
+
+.product-id {
+  color: #3b3d56;
   font-weight: 600;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace;
+  font-size: 0.92rem;
+  word-break: break-all; /* allow long numeric ids to wrap instead of overflowing */
+}
+
+.product-name {
+  color: #23243b;
+  padding-left: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 }
 
 .product-id a:hover {
@@ -170,6 +186,7 @@ button:hover {
 .product-price {
   font-weight: 700;
   color: #1f1f35;
+  text-align: right;
 }
 
 .cart-footer {

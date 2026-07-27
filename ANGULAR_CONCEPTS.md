@@ -58,6 +58,17 @@
 - Dùng khi component này sử dụng component khác, pipes hoặc directives từ các module khác.
 - Nếu thiếu import, template sẽ không nhận diện component con hoặc pipe/directive.
 
+## Life Cycle
+- Dự án này dùng `HomeComponent` và `ProductItemComponent` để minh họa life cycle.
+- Life cycle giúp biết khi nào component được tạo, nhận dữ liệu mới, chạy kiểm tra và bị xóa.
+- Các hook được dùng trong code:
+  - `constructor()`: khởi tạo component. `HomeComponent` log khi tạo, `DetailComponent` dùng `ActivatedRoute` để đọc tham số `id`.
+  - `ngOnInit()`: `HomeComponent` dùng để khởi tạo dữ liệu và gọi API giả lập qua `fetchData()`.
+  - `ngDoCheck()`: `HomeComponent` log mỗi lần change detection chạy, phù hợp để debug hoặc tự kiểm tra trạng thái.
+  - `ngOnChanges(changes)`: `ProductItemComponent` dùng để phát hiện thay đổi của `@Input() products` và xem giá trị trước/sau.
+  - `ngOnDestroy()`: `ProductItemComponent` log khi component con bị gỡ bỏ; dùng để huỷ subscription, clear timer hoặc dọn dẹp tài nguyên.
+- Trong dự án này, chưa sử dụng các hook `ngAfterContentInit`, `ngAfterContentChecked`, `ngAfterViewInit`, `ngAfterViewChecked`, nên chỉ nêu các hook đã áp dụng thực tế.
+
 ## Khi nào dùng điều nào
 - Dùng Dynamic Text để hiển thị nội dung thay đổi.
 - Dùng Property Binding để điều khiển trạng thái thuộc tính DOM/component.

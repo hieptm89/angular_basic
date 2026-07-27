@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgFor } from '@angular/common';
 import { UpperCasePipe } from '../pipes/UpperCasePipe.pipe';
@@ -44,4 +44,22 @@ export class ProductItemComponent {
     return sum; 
   }
 
+  /* Life cycle - Start */
+  // 4. ngOnChanges nhận vào tham số SimpleChanges và chỉ kích hoạt khi giá trị của @Input() (Prop) có sự thay đổi về tham chiếu (reference).
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes['products']) {
+  //     const currentValue = changes['products'].currentValue; // Giá trị hiện tại
+  //     const previousValue = changes['products'].previousValue; // Giá trị trước đó
+
+  //     // console.log('Current Value:', currentValue);
+  //     // console.log('Previous Value:', previousValue);
+  //   }
+  // }
+
+  // 5. Component con (ProductComponent) triển khai interface OnDestroy để lắng nghe thời điểm component bị gỡ bỏ (unmount) khỏi cây DOM.
+  // ngOnDestroy(): void {
+  //     console.log('Component is removed (ngOnDestroy executed)');
+      
+  // }
+  /* Life cycle - End */
 }
