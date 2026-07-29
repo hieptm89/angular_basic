@@ -1,0 +1,36 @@
+<div class="wrapper-cart">
+  <h1>CREATE PRODUCT</h1>
+
+  <!-- Form Group -->
+  <form [formGroup]="product" (ngSubmit)="handleAddCart()">
+    
+    <!-- Field: Name -->
+    <div class="form-control">
+      <label for="name">Name:</label>
+      <input type="text" id="name" formControlName="name" placeholder="Enter name product..." />
+      
+      <!-- Thông báo lỗi cho Name -->
+      <div *ngIf="name?.dirty || name?.touched">
+        <div *ngIf="name?.hasError('required')" style="color: red;">
+          Name is required!
+        </div>
+      </div>
+    </div>
+
+    <!-- Field: Price -->
+    <div class="form-control">
+      <label for="price">Price:</label>
+      <input type="text" id="price" formControlName="price" placeholder="Enter price product..." />
+      
+      <!-- Thông báo lỗi cho Price -->
+      <div *ngIf="price?.dirty || price?.touched">
+        <div *ngIf="price?.hasError('required')" style="color: red;">
+          Price is required!
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn-submit">Add to cart</button>
+  </form>
+</div>

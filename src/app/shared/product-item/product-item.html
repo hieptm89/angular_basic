@@ -8,7 +8,10 @@
 <section class="product-panel">
   <div class="panel-header">
     <h1>Shopping Cart</h1>
-    <div class="panel-actions">
+    <div class="panel-actions">      
+      <button type="button" class="btn-outline" routerLink="/create">
+        Thêm sản phẩm
+      </button>
       <button type="button" class="btn-outline" (click)="onCart()">
         Giỏ hàng ({{ cartCount }})
       </button>

@@ -1,10 +1,11 @@
-import { Component, DoCheck, OnInit, NgZone } from '@angular/core';
+import { Component, DoCheck, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { Product } from '../shared/types/product';
 import { ProductItemComponent } from "../shared/product-item/product-item";
 import { HttpClient } from '@angular/common/http';
 import { BlogService } from '../service/blog.service';
+import { map, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,7 @@ import { BlogService } from '../service/blog.service';
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   // Text
   title = '';
   user = {
@@ -59,28 +60,7 @@ export class HomeComponent implements OnInit {
   isActive: boolean = true; // attribute
 
   // DS sản phẩm
-  productsParent: Product[] = [
-    // {
-    //   id: '1',
-    //   name: 'samba og',
-    //   price: 1000
-    // },
-    // {
-    //   id: '2',
-    //   name: 'n F1',
-    //   price: 2000
-    // },
-    // {
-    //   id: '3',
-    //   name: 'giày Adidas',
-    //   price: 3000
-    // },
-    // {
-    //   id: '4',
-    //   name: 'giày mlb',
-    //   price: 4000
-    // }
-  ];
+  productsParent: Product[] = [];
   
   // Đếm số sảm phẩm trong Card
   get cartCountParent() {
@@ -89,42 +69,59 @@ export class HomeComponent implements OnInit {
 
   // Xóa sản phẩm khỏi Card
   handleDeleteParent = (id: string) => {
-    console.log('card id = ', id);
-    console.log('productIndex = ', this.productsParent.findIndex(item => item.id == id));
-    this.productsParent = this.productsParent.filter(item => item.id !== id);
+    // console.log('card id = ', id);
+    // console.log('productIndex = ', this.productsParent.findIndex(item => item.id == id));
+    // this.productsParent = this.productsParent.filter(item => item.id !== id);
+    // this.blogService.deleteBlock(id);
+
+    this.blogService.deleteBlock(id).subscribe((res: any) => {
+      // Nếu API trả về thành công (data === 1) -> lọc bỏ sản phẩm khỏi mảng giao diện
+      if (res?.data === 1) {
+        this.productsParent = this.productsParent.filter((item) => item.id !== id);
+      }else{
+        console.log('aaaa');
+      }
+    });
   }
 
   /* Life cycle - Start */
   // 1. Constructor: Khởi tạo component, thường dùng để Dependency Injection (inject service)
   // Inject HttpClient thông qua constructor
+
+  getBlogApi : Subscription;
+
   constructor(private blogService: BlogService) {
-    // console.log('Initialize component (constructor)');
+    console.log('Initialize component (constructor)');
+    this.getBlogApi = new Subscription();
   }
+ 
 
   // 2. ngOnInit: Chạy một lần sau khi template/view đã render xong
   ngOnInit(): void {
     console.log('HomeComponent ngOnInit start');
 
     // Gọi API lấy danh sách Blogs
-    this.blogService.getBlogs()
-      .subscribe({
-        next: ({ data, message }) => {
-          console.log('Message:', message);
-          console.log('Data:', data);
-
-          // Map lại dữ liệu nhận được từ API thành cấu trúc phù hợp với UI
-          this.productsParent = data.map((item: any) => {
-            return {
-              ...item,
-              name: item.title,
-              price: Number(item.body)
-            };
-          });
-        },
-        error: (err) => console.error('Fetch API error:', err)
-      });
+    this.getBlogApi = this.blogService.getBlogs().pipe(
+      map(({ data }) => {
+        return data.map((item: any) => {
+          return {
+            ...item,
+            name: item.title,
+            price: Number(item.body)
+          };
+        }).filter(product => product.price >= 300000);
+      })
+    ).subscribe((res) => {
+      this.productsParent = res;
+    });
   }
- 
+
+   ngOnDestroy(): void {
+    if(this.getBlogApi){
+      this.getBlogApi.unsubscribe();
+      console.log('getBlogApi unsubcrible');
+    }
+  }
 
   // 3. ngDoCheck sẽ chạy lại mỗi khi có bất kỳ sự thay đổi nào (kể cả khi state, DOM hay content có bất kỳ sự thay đổi nào)
   ngDoCheck(): void {
